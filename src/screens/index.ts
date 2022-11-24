@@ -1,6 +1,6 @@
-import Home from "./Home/Home";
-import ListStickers from "./List/ListStickers";
-import RegisterStickers from "./Register/RegisterSticker";
+import Home from "./home/home-screen";
+import ListStickers from "./list/list-stickers-screen";
+import RegisterStickers from "./register/register-sticker-screen";
 
 export {
   Home,
