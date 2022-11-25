@@ -1,5 +1,5 @@
 import { RouterProvider } from "react-router-dom"
-import RootRouter from "./RootRouter"
+import RootRouter from "./root-router"
 
 const RootRouterProvider = () => {
   return (
