@@ -1,10 +1,12 @@
-import axios from "axios"
+import { httpService } from "../../commons/http"
+import { StickerDto } from "../../dto"
+import { ServiceError } from "../../error"
 
-export const getStickers = async () => {
+export const getStickers = async (): Promise<StickerDto[]> => {
   try {
-    const result = await axios.get('http://localhost:8080/sticker')
+    const result = await httpService.get<StickerDto[]>('/sticker')
     return result
   } catch(error: Error | any) {
-    console.log(error.message)
+    throw new ServiceError("Não foi possível obter a lista de figurinhas.")
   }
 }

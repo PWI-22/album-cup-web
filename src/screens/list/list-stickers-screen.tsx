@@ -1,21 +1,30 @@
-import axios from "axios"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { StickerDto } from "../../dto"
+import { stickerService } from "../../service"
 
 const ListStickers = () => {
-  const [stickers, setStickers] = useState<any[]>([])
+  const [stickers, setStickers] = useState<StickerDto[]>([])
+  const [errorMessage, setErrorMessage] = useState("")
 
-  useEffect(() => {
-    getStickersList()
+  const navigate = useNavigate()
+
+  const loadStickers = useCallback(async () => {
+    try {
+      const result = await stickerService.getStickers()
+      setStickers(result)
+    } catch(error: Error | any) {
+      setErrorMessage(error.message)
+    }
   }, [])
 
-  const getStickersList = async () => {
-    try {
-      const result = await axios.get('http://localhost:8080/sticker')
-      setStickers(result.data)
-    } catch(error: Error | any) {
-      console.log(error.message)
-    }
+  const addNewSticker = () => {
+    navigate('/register')
   }
+
+  useEffect(() => {
+    loadStickers();
+  }, [loadStickers])
 
   return (
     <>
@@ -38,13 +47,17 @@ const ListStickers = () => {
                 <td>{sticker.country}</td>
                 <td>{sticker.weight}</td>
                 <td>{sticker.height}</td>
-                <td>{sticker.birthday}</td>
-                <td>{sticker.legendary}</td>
+                <td>{sticker.birthday.toString()}</td>
+                <td>{sticker.legendary ? "Sim" : "Não"}</td>
               </tr>
             ))
           }
         </tbody>
       </table>
+      <div>
+        {errorMessage}
+      </div>
+      <input type="button" value="Nova Figurinha" onClick={addNewSticker}/>
     </>
   )
 }
